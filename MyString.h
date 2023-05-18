@@ -30,7 +30,7 @@ public:
 		delete[] this->str;
 	}
 
-
+	//конструктор копіювання
 	MyString(const MyString& other)
 	{
 		this->length = other.length;
@@ -43,7 +43,7 @@ public:
 
 	}
 
-
+	//оператор присвоювання
 	MyString& operator =(const MyString& other)
 	{
 		if (this->str != nullptr)
@@ -167,6 +167,41 @@ public:
 
 		this->str[length] = '\0';
 
+	}
+
+	void erase(const size_t delIndex)
+	{
+		if (delIndex >= length)
+			throw std::bad_alloc();
+
+		char* temp = new char[length];
+
+		for (size_t i = 0, j = 0; i < length-1; i++,j++)
+		{ 
+			if (i != delIndex)
+				temp[i] = str[j];
+
+			else
+			{
+				j++;
+				temp[i] = str[j];
+			}
+		}
+
+		delete[] this->str;
+
+		length = length - 1;
+		temp[length] = '\0';
+		
+		str = temp;
+	}
+
+	char operator[](const size_t index)
+	{
+		if (index >= length) 
+			throw std::bad_alloc();
+
+		return str[index];
 	}
 
 	friend std::ostream& operator <<(std::ostream& os, const MyString& ms);
